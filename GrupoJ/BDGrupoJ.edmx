@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GrupoJModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="codigo_cliente" />
+          </Key>
+          <Property Name="codigo_cliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" />
+          <Property Name="telefono" Type="varchar" MaxLength="50" />
+          <Property Name="correo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tiquetes_prof">
+          <Key>
+            <PropertyRef Name="Codigo_tiquete" />
+          </Key>
+          <Property Name="Codigo_tiquete" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigo_cliente" Type="int" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="Usuario" Type="int" />
+          <Property Name="Prioridad" Type="varchar" MaxLength="3" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="Asignado" Type="int" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="Usuario" />
+          </Key>
+          <Property Name="Usuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+          <Property Name="Estado" Type="varchar" MaxLength="3" />
+          <Property Name="Telefono" Type="varchar" MaxLength="50" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+          <Property Name="Departamento" Type="varchar" MaxLength="3" />
+        </EntityType>
+        <Association Name="FK__6b8f676a">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="Tiquetes_prof" Type="Self.Tiquetes_prof" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="codigo_cliente" />
+            </Principal>
+            <Dependent Role="Tiquetes_prof">
+              <PropertyRef Name="codigo_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__86cb8aec">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Tiquetes_prof" Type="Self.Tiquetes_prof" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Usuario" />
+            </Principal>
+            <Dependent Role="Tiquetes_prof">
+              <PropertyRef Name="Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Reporte_Estados" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Desde" Type="date" Mode="In" />
+          <Parameter Name="Hasta" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="GrupoJModelStoreContainer">
+          <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tiquetes_prof" EntityType="Self.Tiquetes_prof" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__6b8f676a" Association="Self.FK__6b8f676a">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Tiquetes_prof" EntitySet="Tiquetes_prof" />
+          </AssociationSet>
+          <AssociationSet Name="FK__86cb8aec" Association="Self.FK__86cb8aec">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Tiquetes_prof" EntitySet="Tiquetes_prof" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GrupoJModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="codigo_cliente" />
+          </Key>
+          <Property Name="codigo_cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tiquetes_prof" Relationship="Self.FK__6b8f676a" FromRole="Clientes" ToRole="Tiquetes_prof" />
+        </EntityType>
+        <EntityType Name="Tiquetes_prof">
+          <Key>
+            <PropertyRef Name="Codigo_tiquete" />
+          </Key>
+          <Property Name="Codigo_tiquete" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigo_cliente" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="Usuario" Type="Int32" />
+          <Property Name="Prioridad" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Asignado" Type="Int32" />
+          <NavigationProperty Name="Clientes" Relationship="Self.FK__6b8f676a" FromRole="Tiquetes_prof" ToRole="Clientes" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK__86cb8aec" FromRole="Tiquetes_prof" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="Usuario" />
+          </Key>
+          <Property Name="Usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Departamento" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Tiquetes_prof" Relationship="Self.FK__86cb8aec" FromRole="Usuarios" ToRole="Tiquetes_prof" />
+        </EntityType>
+        <Association Name="FK__6b8f676a">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="0..1" />
+          <End Role="Tiquetes_prof" Type="Self.Tiquetes_prof" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="codigo_cliente" />
+            </Principal>
+            <Dependent Role="Tiquetes_prof">
+              <PropertyRef Name="codigo_cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__86cb8aec">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="Tiquetes_prof" Type="Self.Tiquetes_prof" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="Usuario" />
+            </Principal>
+            <Dependent Role="Tiquetes_prof">
+              <PropertyRef Name="Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GrupoJEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clientes" EntityType="Self.Clientes" />
+          <EntitySet Name="Tiquetes_prof" EntityType="Self.Tiquetes_prof" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+          <AssociationSet Name="FK__6b8f676a" Association="Self.FK__6b8f676a">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Tiquetes_prof" EntitySet="Tiquetes_prof" />
+          </AssociationSet>
+          <AssociationSet Name="FK__86cb8aec" Association="Self.FK__86cb8aec">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Tiquetes_prof" EntitySet="Tiquetes_prof" />
+          </AssociationSet>
+          <FunctionImport Name="Reporte_Estados" ReturnType="Collection(GrupoJModel.Reporte_Estados_Result)">
+            <Parameter Name="Desde" Mode="In" Type="DateTime" />
+            <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Reporte_Estados_Result">
+          <Property Type="Int32" Name="Codigo" Nullable="false" />
+          <Property Type="String" Name="NombreCliente" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Fecha" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Atendio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Asignado" Nullable="false" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GrupoJModelStoreContainer" CdmEntityContainer="GrupoJEntities">
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="GrupoJModel.Clientes">
+              <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="codigo_cliente" ColumnName="codigo_cliente" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tiquetes_prof">
+            <EntityTypeMapping TypeName="GrupoJModel.Tiquetes_prof">
+              <MappingFragment StoreEntitySet="Tiquetes_prof">
+                <ScalarProperty Name="Codigo_tiquete" ColumnName="Codigo_tiquete" />
+                <ScalarProperty Name="codigo_cliente" ColumnName="codigo_cliente" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Prioridad" ColumnName="Prioridad" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Asignado" ColumnName="Asignado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="GrupoJModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="Usuario" ColumnName="Usuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Reporte_Estados" FunctionName="GrupoJModel.Store.Reporte_Estados">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GrupoJModel.Reporte_Estados_Result">
+                <ScalarProperty Name="Codigo" ColumnName="Codigo" />
+                <ScalarProperty Name="NombreCliente" ColumnName="NombreCliente" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Atendio" ColumnName="Atendio" />
+                <ScalarProperty Name="Asignado" ColumnName="Asignado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
